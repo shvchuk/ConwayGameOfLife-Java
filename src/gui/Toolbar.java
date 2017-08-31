@@ -46,7 +46,13 @@ public class Toolbar extends JPanel implements ActionListener{
         }
     }
 
+    public void setStartButton(boolean bool){
+        startButton.setEnabled(bool);
+    }
 
+    public void setRestartButton(boolean bool){
+        restartButton.setEnabled(bool);
+    }
 }
 
 

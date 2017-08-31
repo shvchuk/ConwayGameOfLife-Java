@@ -1,4 +1,6 @@
 package callbacks;
 
-public class ButtonListener {
+public interface ButtonListener {
+    public void startClicked();
+    public void restartClicked();
 }
