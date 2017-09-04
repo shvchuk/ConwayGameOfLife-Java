@@ -8,6 +8,8 @@ import gui.Toolbar;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.concurrent.ExecutorService;
 
 public class MainFrame extends JFrame implements ButtonListener{
@@ -32,7 +34,46 @@ public class MainFrame extends JFrame implements ButtonListener{
         toolbar.setButtonListener(this);
 
         add(board, BorderLayout.CENTER);
+        add(toolbar, BorderLayout.NORTH);
+        add(timePanel, BorderLayout.SOUTH);
 
+        setSize(Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT);
+        setVisible(true);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(this);
+    }
+
+    private void initializeMenu(){
+        JMenuBar menuBar = createMenuBar();
+        setJMenuBar(menuBar);
+    }
+
+    private JMenuBar createMenuBar(){
+
+        JMenuBar menuBar = new JMenuBar();
+
+        JMenu fileMenu = new JMenu(Constants.MENU_FILE);
+        JMenuItem exitMenuItem = new JMenuItem(Constants.MENU_EXIT);
+        fileMenu.add(exitMenuItem);
+
+        JMenu aboutMenu = new JMenu(Constants.MENU_ABOUT);
+
+        menuBar.add(fileMenu);
+        menuBar.add(aboutMenu);
+
+        exitMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                int action = JOptionPane.showConfirmDialog(MainFrame.this, Constants.MENU_EXIT);
+                if(action == JOptionPane.OK_OPTION){
+                    System.gc();
+                    System.exit(0);
+                }
+
+            }
+        });
+
+        return menuBar;
     }
 
 
