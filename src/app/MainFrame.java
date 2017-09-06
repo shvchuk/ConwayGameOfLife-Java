@@ -3,6 +3,7 @@ package app;
 import callbacks.ButtonListener;
 import constants.Constants;
 import gui.Board;
+import gui.Controller;
 import gui.TimePanel;
 import gui.Toolbar;
 
@@ -11,6 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MainFrame extends JFrame implements ButtonListener{
 
@@ -80,10 +82,55 @@ public class MainFrame extends JFrame implements ButtonListener{
     @Override
     public void startClicked() {
 
+        toolbar.setRestartButton(true);
+
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                toolbar.setStartButton(false);
+                toolbar.setRestartButton(true);
+            }
+        });
+
+        Controller.startThread();
+        executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Controller(board));
     }
 
     @Override
     public void restartClicked() {
 
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                toolbar.setStartButton(true);
+                toolbar.setRestartButton(false);
+            }
+        });
+
+        executor.shutdown();
+        Controller.stopThread();
+        board.resetBoard();
+        timePanel.refreshCounter();
+
+        toolbar.setRestartButton(false);
+
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
