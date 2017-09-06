@@ -82,8 +82,6 @@ public class MainFrame extends JFrame implements ButtonListener{
     @Override
     public void startClicked() {
 
-        toolbar.setRestartButton(true);
-
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
